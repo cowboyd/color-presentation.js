@@ -32,3 +32,8 @@ describe 'The Color.Parser', ->
       expect((@parser.get("output")).getProperties('h','s', 'l')).to.deep.equal
         h: 110, s: .22, l: 1
 
+    describe '. Then setting the parser output to another color', ->
+      beforeEach -> Ember.run =>
+        @parser.set "output", Color.create({r: 25, g: 55, b: 100})
+      it "serializes through the hsl rule", ->
+        expect(@parser.get("input")).to.equal "hsl(216,0.6,0.245)"
