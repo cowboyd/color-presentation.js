@@ -28,6 +28,7 @@ module.exports = function(config) {
       'bower_components/ember/ember.js',
       'bower_components/tinycolor/tinycolor.js',
       'lib/**/*.js',
+      'spec/spec_helper.coffee',
       'spec/**/*_spec.coffee'
     ],
 
