@@ -45,7 +45,7 @@ describe "Colors", ->
 
     describe 'setting the hsl coordinates', ->
       beforeEach ->
-        Ember.run => @color.setProperties({h: 335, s: .75, l: 0.471})        
+        Ember.run => @color.setProperties({h: 335, s: .75, l: 0.471})
       it 'adjust the hsl value', ->
         expect(@color.get('hslValue')).to.equal @chocolateHSL
       it 'adjusts the rgb value', ->
