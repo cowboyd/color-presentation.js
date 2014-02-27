@@ -24,16 +24,23 @@ describe 'The Color.Parser', ->
         expect(@parser.get("output").getProperties('r','g','b')).to.deep.equal
           r: 210, g: 30, b: 105
 
-  describe 'input in the form hsl($h,$s,$l)', ->
-    beforeEach ->
-      @parser.set 'input', "hsl(110, .22, 1)"
-    it "matches", ->
-      expect(@parser.get("output")).to.exist
-      expect((@parser.get("output")).getProperties('h','s', 'l')).to.deep.equal
-        h: 110, s: .22, l: 1
+    describe '. Then setting the parser output to another color ', ->
+      beforeEach ->
+        @parser.set "output", Color.create({h: 216, s: 0.6, l: 0.245})
+      it 'serializes through the rgb rule', ->
+        expect(@parser.get("input")).to.equal "rgb(25,55,100)"
 
-    describe '. Then setting the parser output to another color', ->
-      beforeEach -> Ember.run =>
-        @parser.set "output", Color.create({r: 25, g: 55, b: 100})
-      it "serializes through the hsl rule", ->
-        expect(@parser.get("input")).to.equal "hsl(216,0.6,0.245)"
+
+    describe 'input in the form hsl($h,$s,$l)', ->
+      beforeEach ->
+        @parser.set 'input', "hsl(110, .22, 1)"
+      it "matches", ->
+        expect(@parser.get("output")).to.exist
+        expect((@parser.get("output")).getProperties('h','s', 'l')).to.deep.equal
+          h: 110, s: .22, l: 1
+
+      describe '. Then setting the parser output to another color', ->
+        beforeEach ->
+          @parser.set "output", Color.create({r: 25, g: 55, b: 100})
+        it "serializes through the hsl rule", ->
+          expect(@parser.get("input")).to.equal "hsl(216,0.6,0.245)"
