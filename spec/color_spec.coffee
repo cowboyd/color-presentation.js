@@ -1,17 +1,16 @@
 describe "Colors", ->
   beforeEach ->
+    @rgb = Color.fromRGB.bind Color
+    @hsl = Color.fromHSL.bind Color
     @chocolate = Color.fromRGB r: 210, g: 30, b: 105
 
   describe "referential integrity", ->
     it 'is upheld in rgb space', ->
-      expect(@chocolate).to.equal Color.fromRGB(r: 210, g: 30, b: 105)
+      expect(@chocolate).to.equal @rgb r: 210, g: 30, b: 105
     it 'is upheld in hsl space', ->
-      expect(@chocolate).to.equal Color.fromHSL(h: 335, s: .75, l: 0.471)
+      expect(@chocolate).to.equal @hsl h: 335, s: .75, l: 0.471
 
   describe "normalization", ->
-    beforeEach ->
-      @rgb = Color.fromRGB.bind Color
-      @hsl = Color.fromHSL.bind Color
     it 'parses and rounds rgb values', ->
       expect(@rgb r: "210.1", g: "29.6", b: 0).to.equal @rgb r: 210, g: 30, b: 0
       expect(@rgb r: 800, g: -300).to.equal @rgb r: 255, g: 0, b: 0
