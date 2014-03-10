@@ -1,6 +1,6 @@
 describe 'color matcher', ->
   beforeEach ->
-    @matcher = Color.Matcher.create()
+    @matcher = ColorSyntax.Matcher.create()
   it 'has no output by default', ->
     expect(@matcher.get('output')).not.to.exist
   describe 'matching rgb rules', ->
