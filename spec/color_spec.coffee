@@ -1,7 +1,5 @@
 describe "Colors", ->
   beforeEach ->
-    @rgb = Color.fromRGB.bind Color
-    @hsl = Color.fromHSL.bind Color
     @chocolate = Color.fromRGB r: 210, g: 30, b: 105
 
   describe "referential integrity", ->
