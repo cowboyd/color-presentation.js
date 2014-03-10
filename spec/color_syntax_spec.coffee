@@ -23,3 +23,13 @@ describe 'Color Syntax', ->
         @syntax.set('output', @hsl(250, .47, .78))
       it 'formats according to rgb', ->
         expect(@syntax.get('input')).to.equal 'rgb(181,173,225)'
+  describe 'setting in a valid hsl string', ->
+    beforeEach ->
+      @syntax.set('input', 'hsl(250,.47,.78)')
+    it 'outputs the corresponding color', ->
+      expect(@syntax.get('output')).to.equal @hsl(250,.47,.78)
+    describe 'changing the color', ->
+      beforeEach ->
+        @syntax.set 'output', @rgb(10,20,30)
+      it 'formats the input using hsl rules', ->
+        expect(@syntax.get('input')).to.equal 'hsl(210,0.5,0.078)'
