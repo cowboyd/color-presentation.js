@@ -19,10 +19,13 @@ App.ApplicationController = Ember.Controller.extend({
   }.on('init'),
 
   observeColor: function() {
-    console.log('color', this.get('color.rgb'))
+    console.log(this._previousColor.get('rgb'), ' -> ', this.get('color.rgb'))
   }.observes("color"),
   observeSyntaxOutput: function() {
     console.log('syntax.output', this.get('syntax.output.rgb'))
-  }.observes("syntax.output.rgb")
+  }.observes("syntax.output.rgb"),
+  recordColorHistory: function() {
+    this._previousColor = this.get('color')
+  }.observesBefore('color')
 })
 

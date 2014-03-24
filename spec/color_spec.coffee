@@ -6,8 +6,7 @@ describe "Colors", ->
     it 'is upheld in rgb space', ->
       expect(@chocolate).to.equal @rgb r: 210, g: 30, b: 105
     it 'is upheld in hsl space and rgb space', ->
-      expect(@chocolate).to.equal @hsl h: 335, s: .75, l: 0.471
-      expect(@rgb r: 220, g: 20, b: 60).to.equal @crimson
+      expect(@hsl h: 348, s: 0.833, l: 0.471).to.equal @crimson
 
   describe "normalization", ->
     it 'parses and rounds rgb values', ->
