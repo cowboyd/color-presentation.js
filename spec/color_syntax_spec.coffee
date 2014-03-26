@@ -33,3 +33,13 @@ describe 'Color Syntax', ->
         @syntax.set 'output', @rgb(10,20,30)
       it 'formats the input using hsl rules', ->
         expect(@syntax.get('input')).to.equal 'hsl(210,0.5,0.078)'
+  describe 'setting a valid HEX string', ->
+    beforeEach ->
+      @syntax.set('input', "#Af0d1B")
+    it 'outputs the corresponding color', ->
+      expect(@syntax.get('output')).to.equal @rgb(175,13,27)
+    describe 'changing the collor', ->
+      beforeEach ->
+        @syntax.set 'output', @rgb(255,16,33)
+      it 'formats the input in hexidecimal', ->
+        expect(@syntax.get('input')).to.equal '#FF1021'
