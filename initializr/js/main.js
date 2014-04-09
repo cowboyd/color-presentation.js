@@ -44,12 +44,25 @@ App.XSliderComponent = Ember.Component.extend({
   }.on('willDestroyElement')
 })
 
+App.RgbVisualizationComponent = Ember.Component.extend({
+  color: Color.create(),
+  setupBindings: function() {
+    Ember.oneWay(this, 'r', 'color.r')
+    Ember.oneWay(this, 'g', 'color.g')
+    Ember.oneWay(this, 'b', 'color.b')
+  }.on('init'),
+
+  changeColor: function() {
+    this.set('color', Color.fromRGB(this.getProperties('r','g','b')))
+  }.observes("r", "g", "b"),
+})
+
 App.RgbBlendComponent = Ember.Component.extend({
   tagName: "canvas",
   height: 200,
   width: 200,
   attributeBindings: ['height', 'width'],
-  color: null,
+  color: Color.create(),
 
   paint: function() {
     var canvas = this.get('element')

@@ -35,8 +35,14 @@
     <div class="swatch" {{bind-attr style="swatchStyle"}}></div>
     {{color-input value=color}}
     {{color-input value=color}} {{color-input value=color}}
-    {{rgb-blend color=color}}
-    {{x-slider min=0 max=255 value=0}}
+    {{rgb-visualization color=color}}
+
     <canvas height="200" width="200"></canvas>
+  </script>
+  <script type="text/x-handlebars" data-template-name="components/rgb-visualization">
+    {{rgb-blend color=color}}
+    {{x-slider min=0 max=255 value=r}}
+    {{x-slider min=0 max=255 value=g}}
+    {{x-slider min=0 max=255 value=b}}
   </script>
 </html>
