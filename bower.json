@@ -13,7 +13,7 @@
     "bower_components"
   ],
   "dependencies": {
-    "ember": ">= 1.0.0",
+    "ember": ">= 1.5.0",
     "handlebars": "1.1.0",
     "tinycolor": "*",
     "d3": "*"
