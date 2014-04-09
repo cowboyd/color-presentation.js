@@ -6,17 +6,6 @@ App.ApplicationController = Ember.Controller.extend({
     var rgb = this.get('color.rgb')
     return "background-color: " + "rgb(" + [rgb.r,rgb.g,rgb.b].join(',') + ")"
   }.property('color.rgb'),
-  syntax: function() {
-    return ColorSyntax.create()
-  }.property(),
-  syntax2: function() {
-    return ColorSyntax.create()
-  }.property(),
-
-  setupBindings: function() {
-    Ember.bind(this, 'syntax.output', 'color')
-    Ember.bind(this, 'syntax2.output', 'color')
-  }.on('init'),
 
   observeColor: function() {
     //console.log(this._previousColor.get('rgb'), ' -> ', this.get('color.rgb'))
@@ -27,6 +16,32 @@ App.ApplicationController = Ember.Controller.extend({
   recordColorHistory: function() {
     this._previousColor = this.get('color')
   }.observesBefore('color')
+})
+
+App.ColorInputComponent = Ember.Component.extend({
+  tagName: 'span',
+  layout: Ember.Handlebars.compile("{{input value=syntax.input}}"),
+  value: Ember.computed.alias('syntax.output'),
+  syntax: function() {
+    return ColorSyntax.create()
+  }.property()
+})
+
+App.XSliderComponent = Ember.Component.extend({
+  classNames: ['x-slider'],
+  tagName: ['input'],
+  attributeBindings: ['min', 'max', 'step', 'type'],
+  type: "range",
+  setup: function() {
+    var component = this
+    Ember.oneWay(this, 'element.value', 'value')
+    this.$().on('input.x-slider', function() {
+      component.set('value', new Number(this.value).valueOf())
+    })
+  }.on('didInsertElement'),
+  teardown: function() {
+    this.$().off('input.x-slider')
+  }.on('willDestroyElement')
 })
 
 App.RgbBlendComponent = Ember.Component.extend({

@@ -15,6 +15,7 @@
   "dependencies": {
     "ember": ">= 1.0.0",
     "handlebars": "1.1.0",
-    "tinycolor": "*"
+    "tinycolor": "*",
+    "d3": "*"
   }
 }
