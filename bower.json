@@ -16,6 +16,7 @@
     "ember": ">= 1.5.0",
     "handlebars": "1.1.0",
     "tinycolor": "*",
-    "d3": "*"
+    "d3": "*",
+    "threejs": "*"
   }
 }

@@ -44,6 +44,61 @@ App.XSliderComponent = Ember.Component.extend({
   }.on('willDestroyElement')
 })
 
+App.HslVisualizationComponent = Ember.Component.extend({
+  classNames: ['hsl-visualization'],
+  xRotation: 0,
+  yRotation: 0
+})
+
+App.HslCylinderComponent = Ember.Component.extend({
+  classNames: ['hsl-cylinder'],
+  tagName: "canvas",
+  attributeBindings: ['height', 'width'],
+  height: 400,
+  width: 400,
+  xRotation: 0,
+  yRotation: 0,
+
+  repaint: function() {
+    var viz = this.getProperties('renderer', 'scene', 'camera', 'cylinder')
+    viz.cylinder.rotation.x = this.get('xRotation') * Math.PI / 180
+    viz.cylinder.rotation.y = this.get('yRotation') * Math.PI / 180
+    viz.renderer.render(viz.scene, viz.camera)
+  }.observes("xRotation", "yRotation", "color").on('didInsertElement'),
+
+  setup: function() {
+    var renderer = new THREE.WebGLRenderer({
+      canvas: this.get('element')
+    });
+    renderer.setSize(400, 400);
+
+    // camera
+    var camera = new THREE.PerspectiveCamera(45, 1, 1, 1000);
+    camera.position.z = 700;
+
+    // scene
+    var scene = new THREE.Scene();
+
+    // cylinder
+    // API: THREE.CylinderGeometry(bottomRadius, topRadius, height, segmentsRadius, segmentsHeight)
+    var cylinder = new THREE.Mesh(new THREE.CylinderGeometry(100, 100, 400, 50, 50, false), new THREE.MeshNormalMaterial());
+    cylinder.overdraw = true;
+    scene.add(cylinder);
+
+    // start animation
+    //animate();
+
+    this.setProperties({
+      renderer: renderer,
+      scene: scene,
+      camera: camera,
+      cylinder: cylinder
+    })
+  }.on('didInsertElement'),
+
+})
+
+
 App.RgbVisualizationComponent = Ember.Component.extend({
   color: Color.create(),
   setupBindings: function() {

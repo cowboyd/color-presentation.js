@@ -20,10 +20,11 @@
     <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
     <![endif]-->
 
-    <script src="../bower_components/jquery/jquery.js"></script>
+    <script src="../bower_components/jquery/dist/jquery.js"></script>
     <script src="../bower_components/handlebars/handlebars.js"></script>
     <script src="../bower_components/ember/ember.js"></script>
     <script src="../bower_components/tinycolor/tinycolor.js"></script>
+    <script src="../bower_components/threejs/build/three.js"></script>
     <script src="../lib/fs/color_syntax.js"></script>
     <script src="../lib/fs/color_dampener.js"></script>
     <script src="../lib/fs/color.js"></script>
@@ -36,13 +37,17 @@
     {{color-input value=color}}
     {{color-input value=color}} {{color-input value=color}}
     {{rgb-visualization color=color}}
-
-    <canvas height="200" width="200"></canvas>
+    {{hsl-visualization color=color}}
   </script>
   <script type="text/x-handlebars" data-template-name="components/rgb-visualization">
     {{rgb-blend color=color}}
     {{x-slider min=0 max=255 value=r}}
     {{x-slider min=0 max=255 value=g}}
     {{x-slider min=0 max=255 value=b}}
+  </script>
+  <script type="text/x-handlebars" data-template-name="components/hsl-visualization">
+    {{hsl-cylinder color=color xRotation=xRotation yRotation=yRotation}}
+    {{x-slider min=0 max=90 value=xRotation}}
+    {{x-slider min=0 max=360 value=yRotation}}
   </script>
 </html>
