@@ -1,7 +1,7 @@
 App = Ember.Application.create()
 
 App.ApplicationController = Ember.Controller.extend({
-  color: Color.fromRGB(),
+  color: Color.fromRGB(255,0,0),
   swatchStyle: function() {
     var rgb = this.get('color.rgb')
     return "background-color: " + "rgb(" + [rgb.r,rgb.g,rgb.b].join(',') + ")"
@@ -36,16 +36,19 @@ App.XSliderComponent = Ember.Component.extend({
 
 App.HslVisualizationComponent = Ember.Component.extend({
   classNames: ['hsl-visualization'],
-  xRotation: 0,
-  color: Color.create(),
+  xRotation: 45,
+  dampener: function() {
+    return ColorDampener.create()
+  }.property(),
   setupBindings: function() {
     Ember.oneWay(this, 'h', 'color.h')
     Ember.oneWay(this, 's', 'color.s')
     Ember.oneWay(this, 'l', 'color.l')
+    Ember.bind(this, 'color', 'dampener.left')
   }.on('init'),
 
   changeColor: function() {
-    this.set('color', Color.fromHSL(this.getProperties('h','s','l')))
+    this.set('dampener.right', Color.fromHSL(this.getProperties('h','s','l')))
   }.observes("h", "s", "l"),
 })
 
@@ -53,10 +56,9 @@ App.HslCylinderComponent = Ember.Component.extend({
   classNames: ['hsl-cylinder'],
   tagName: "canvas",
   attributeBindings: ['height', 'width'],
-  color: Color.create(),
   height: 400,
   width: 400,
-  xRotation: 0,
+  xRotation: 45,
 
 
   repaint: function() {
