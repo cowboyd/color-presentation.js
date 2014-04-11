@@ -61,32 +61,36 @@ App.HslCylinderComponent = Ember.Component.extend({
   xRotation: 45,
 
 
-  repaint: function() {
-    var viz = this.getProperties('renderer', 'scene', 'camera', 'cylinder')
-    viz.cylinder.rotation.y = this.get('color.h') * Math.PI / 180
-    viz.cylinder.rotation.x = this.get('xRotation') * Math.PI / 180
-    viz.renderer.render(viz.scene, viz.camera)
-  }.observes("xRotation", "color").on('didInsertElement'),
+  scene: function() {
+    var scene = new THREE.Scene()
+    scene.add(this.get('cylinder'))
+    return scene
+  }.property('cylinder'),
 
-  setup: function() {
-    var renderer = new THREE.WebGLRenderer({
-      canvas: this.get('element')
-    });
-    renderer.setSize(this.get('height'), this.get('width'));
-
-    // camera
+  camera: function() {
     var camera = new THREE.PerspectiveCamera(45, 1, 1, 1000);
     camera.position.z = 700;
+    return camera
+  }.property(),
 
-    // scene
-    var scene = new THREE.Scene();
+  renderer: function() {
+    var renderer = new THREE.WebGLRenderer({
+      canvas: this.get('element')
+    })
+    renderer.setSize(this.get('height'), this.get('width'))
+    return renderer
+  }.property('element', 'height', 'width'),
 
 
-    var material = new THREE.MeshBasicMaterial({
+  material: function() {
+    return new THREE.MeshBasicMaterial({
       vertexColors: THREE.VertexColors,
       emissive: new THREE.Color(0xffffff)
     });
-    var geometryBottom = new THREE.CylinderGeometry(100, 100, 200, 720, 1, false)
+  }.property(),
+
+  bottom: function() {
+    var geometryBottom = new THREE.CylinderGeometry(100, 0, 200, 100, 1, false)
     geometryBottom.faces.forEach(function(face) {
       //logFace(geometryBottom, face);
       ['a','b','c'].forEach(function(vertexName) {
@@ -102,11 +106,14 @@ App.HslCylinderComponent = Ember.Component.extend({
         }
       })
     })
-    var bottom = new THREE.Mesh(geometryBottom, material);
+    var bottom = new THREE.Mesh(geometryBottom, this.get('material'));
     bottom.translateY(-100)
+    return bottom
+  }.property('material'),
 
-
-    var geometryTop = new THREE.CylinderGeometry(100, 100, 200, 720, 1, false)
+  top: function() {
+    var material = this.get('material')
+    var geometryTop = new THREE.CylinderGeometry(100, 100, 200, 100, 1, false)
     geometryTop.faces.forEach(function(face) {
       //logFace(geometryTop, face);
       ['a','b','c'].forEach(function(vertexName) {
@@ -124,23 +131,23 @@ App.HslCylinderComponent = Ember.Component.extend({
     })
     var top = new THREE.Mesh(geometryTop, material);
     top.translateY(100)
+    return top
+  }.property('material'),
 
+  cylinder: function() {
     var cylinder = new THREE.Object3D()
-    cylinder.add(top);
-    cylinder.add(bottom);
-    scene.add(cylinder);
+    cylinder.add(this.get('top'))
+    cylinder.add(this.get('bottom'))
+    return cylinder
+  }.property('top', 'bottom'),
 
-    // start animation
-    //animate();
 
-    this.setProperties({
-      renderer: renderer,
-      scene: scene,
-      camera: camera,
-      cylinder: cylinder
-    })
-    
-  }.on('didInsertElement'),
+  draw: function() {
+    this.set('cylinder.rotation.y', this.get('color.h') * Math.PI / 180)
+    this.set('cylinder.rotation.x', this.get('xRotation') * Math.PI / 180)
+    this.get('renderer').render(this.get('scene'), this.get('camera'))
+
+  }.observes("xRotation", "color", "scene", "renderer", "camera").on('didInsertElement'),
 
 })
 
