@@ -37,47 +37,54 @@ App.XSliderComponent = Ember.Component.extend({
 App.HslVisualizationComponent = Ember.Component.extend({
   classNames: ['hsl-visualization'],
   xRotation: 0,
-  yRotation: 0
+  color: Color.create(),
+  setupBindings: function() {
+    Ember.oneWay(this, 'h', 'color.h')
+    Ember.oneWay(this, 's', 'color.s')
+    Ember.oneWay(this, 'l', 'color.l')
+  }.on('init'),
+
+  changeColor: function() {
+    this.set('color', Color.fromHSL(this.getProperties('h','s','l')))
+  }.observes("h", "s", "l"),
 })
 
 App.HslCylinderComponent = Ember.Component.extend({
   classNames: ['hsl-cylinder'],
   tagName: "canvas",
   attributeBindings: ['height', 'width'],
+  color: Color.create(),
   height: 400,
   width: 400,
   xRotation: 0,
-  yRotation: 0,
-  h: 0,
-  s: 1,
-  l: 0.5,
+
 
   repaint: function() {
     var viz = this.getProperties('renderer', 'scene', 'camera', 'cylinder')
+    viz.cylinder.rotation.y = this.get('color.h') * Math.PI / 180
     viz.cylinder.rotation.x = this.get('xRotation') * Math.PI / 180
-    viz.cylinder.rotation.y = this.get('yRotation') * Math.PI / 180
     viz.renderer.render(viz.scene, viz.camera)
-  }.observes("xRotation", "yRotation", "color.hsl").on('didInsertElement'),
+  }.observes("xRotation", "color").on('didInsertElement'),
 
   setup: function() {
     var renderer = new THREE.WebGLRenderer({
       canvas: this.get('element')
     });
-    renderer.setSize(400, 400);
+    renderer.setSize(this.get('height'), this.get('width'));
 
     // camera
     var camera = new THREE.PerspectiveCamera(45, 1, 1, 1000);
-    camera.position.z = 700;
+    camera.position.z = 600;
 
     // scene
     var scene = new THREE.Scene();
 
 
-    var material = new THREE.MeshBasicMaterial({ 
+    var material = new THREE.MeshBasicMaterial({
       vertexColors: THREE.VertexColors,
       emissive: new THREE.Color(0xffffff)
     });
-    var geometry = window.geometry = new THREE.CylinderGeometry(100, 100, 400, 720, 1, false)
+    var geometry = window.geometry = new THREE.CylinderGeometry(100, 100, 200, 720, 1, false)
     geometry.faces.forEach(function(face) {
       //logFace(geometry, face);
       ['a','b','c'].forEach(function(vertexName) {
