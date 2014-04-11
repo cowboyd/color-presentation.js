@@ -65,7 +65,7 @@ App.HslCylinderComponent = Ember.Component.extend({
     var scene = new THREE.Scene()
     scene.add(this.get('apparatus'))
     return scene
-  }.property('cylinder'),
+  }.property('apparatus'),
 
   apparatus: function() {
     var apparatus = new THREE.Object3D()
@@ -102,13 +102,13 @@ App.HslCylinderComponent = Ember.Component.extend({
       color: new THREE.Color(0x000000)
     })
     var sphere = new THREE.Mesh(geometry, material);
-    sphere.position.y = 200
+    sphere.position.y = 205
     sphere.position.z = 100
     return sphere
   }.property(),
 
   bottom: function() {
-    var geometryBottom = new THREE.CylinderGeometry(100, 0, 200, 100, 1, false)
+    var geometryBottom = new THREE.CylinderGeometry(100, 100, 200, 100, 1, false)
     geometryBottom.faces.forEach(function(face) {
       //logFace(geometryBottom, face);
       ['a','b','c'].forEach(function(vertexName) {
@@ -127,11 +127,14 @@ App.HslCylinderComponent = Ember.Component.extend({
     var bottom = new THREE.Mesh(geometryBottom, this.get('material'));
     bottom.translateY(-100)
     return bottom
-  }.property('material'),
+  }.property('material', 'color.l'),
 
   top: function() {
     var material = this.get('material')
-    var geometryTop = new THREE.CylinderGeometry(100, 100, 200, 100, 1, false)
+    var maxHeight = 200
+    var height = Math.max(0, (this.get('color.l') - 0.5) * 400)
+    var truncation = 200 - height
+    var geometryTop = new THREE.CylinderGeometry(0, 100, 200, 100, 1, false)
     geometryTop.faces.forEach(function(face) {
       //logFace(geometryTop, face);
       ['a','b','c'].forEach(function(vertexName) {
@@ -139,18 +142,28 @@ App.HslCylinderComponent = Ember.Component.extend({
         if (vertex.y > 0) {
           face.vertexColors.push(new THREE.Color(0xffffff));
         } else {
-          var h = Math.asin(vertex.x / 100) * 180 / Math.PI
-          var s = vertex.z / 100
+          var h;
+          if (vertex.x === 0 && vertex.z === 0) {
+            h = 0
+          } else {
+            if (vertex.z === 0) {
+              h = Math.atan(vertex.x) + Math.PI / 2
+            } else if (vertex.z < 0) {
+              h = Math.atan(vertex.x / vertex.z) + 3 * Math.PI / 2
+            } else {
+              h = Math.atan(vertex.x / vertex.z) + Math.PI / 2
+            }
+          }
           var color = new THREE.Color()
-          color.setHSL(h / 360, s, 0.5)
+          color.setHSL(h / (2 * Math.PI), 1, 0.5)
           face.vertexColors.push(color);
         }
       })
     })
     var top = new THREE.Mesh(geometryTop, material);
-    top.translateY(100)
+    top.position.y = 100 //- (truncation / 2)
     return top
-  }.property('material'),
+  }.property('material', 'color.l'),
 
   cylinder: function() {
     var cylinder = new THREE.Object3D()
@@ -161,7 +174,7 @@ App.HslCylinderComponent = Ember.Component.extend({
 
 
   draw: function() {
-    this.set('cylinder.rotation.y', this.get('color.h') * Math.PI / 180)
+    this.set('cylinder.rotation.y', -1 * this.get('color.h') * Math.PI / 180)
     this.set('dot.position.z', this.get('color.s') * 100)
     this.set('apparatus.rotation.x', this.get('xRotation') * Math.PI / 180)
     this.get('renderer').render(this.get('scene'), this.get('camera'))
