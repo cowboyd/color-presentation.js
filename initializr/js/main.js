@@ -63,9 +63,16 @@ App.HslCylinderComponent = Ember.Component.extend({
 
   scene: function() {
     var scene = new THREE.Scene()
-    scene.add(this.get('cylinder'))
+    scene.add(this.get('apparatus'))
     return scene
   }.property('cylinder'),
+
+  apparatus: function() {
+    var apparatus = new THREE.Object3D()
+    apparatus.add(this.get('cylinder'))
+    apparatus.add(this.get('dot'))
+    return apparatus
+  }.property('cylinder', 'dot'),
 
   camera: function() {
     var camera = new THREE.PerspectiveCamera(45, 1, 1, 1000);
@@ -87,6 +94,17 @@ App.HslCylinderComponent = Ember.Component.extend({
       vertexColors: THREE.VertexColors,
       emissive: new THREE.Color(0xffffff)
     });
+  }.property(),
+
+  dot: function() {
+    var geometry = new THREE.SphereGeometry(5);
+    var material = new THREE.MeshBasicMaterial({
+      color: new THREE.Color(0x000000)
+    })
+    var sphere = new THREE.Mesh(geometry, material);
+    sphere.position.y = 200
+    sphere.position.z = 100
+    return sphere
   }.property(),
 
   bottom: function() {
@@ -144,7 +162,8 @@ App.HslCylinderComponent = Ember.Component.extend({
 
   draw: function() {
     this.set('cylinder.rotation.y', this.get('color.h') * Math.PI / 180)
-    this.set('cylinder.rotation.x', this.get('xRotation') * Math.PI / 180)
+    this.set('dot.position.z', this.get('color.s') * 100)
+    this.set('apparatus.rotation.x', this.get('xRotation') * Math.PI / 180)
     this.get('renderer').render(this.get('scene'), this.get('camera'))
 
   }.observes("xRotation", "color", "scene", "renderer", "camera").on('didInsertElement'),
