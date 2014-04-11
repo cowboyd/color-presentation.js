@@ -76,7 +76,7 @@ App.HslCylinderComponent = Ember.Component.extend({
 
     // camera
     var camera = new THREE.PerspectiveCamera(45, 1, 1, 1000);
-    camera.position.z = 600;
+    camera.position.z = 700;
 
     // scene
     var scene = new THREE.Scene();
@@ -86,11 +86,11 @@ App.HslCylinderComponent = Ember.Component.extend({
       vertexColors: THREE.VertexColors,
       emissive: new THREE.Color(0xffffff)
     });
-    var geometry = window.geometry = new THREE.CylinderGeometry(100, 100, 200, 720, 1, false)
-    geometry.faces.forEach(function(face) {
-      //logFace(geometry, face);
+    var geometryBottom = new THREE.CylinderGeometry(100, 100, 200, 720, 1, false)
+    geometryBottom.faces.forEach(function(face) {
+      //logFace(geometryBottom, face);
       ['a','b','c'].forEach(function(vertexName) {
-        var vertex = geometry.vertices[face[vertexName]]
+        var vertex = geometryBottom.vertices[face[vertexName]]
         if (vertex.y < 0) {
           face.vertexColors.push(new THREE.Color(0x000000));
         } else {
@@ -102,8 +102,32 @@ App.HslCylinderComponent = Ember.Component.extend({
         }
       })
     })
-    var cylinder = new THREE.Mesh(geometry, material);
-    cylinder.overdraw = true;
+    var bottom = new THREE.Mesh(geometryBottom, material);
+    bottom.translateY(-100)
+
+
+    var geometryTop = new THREE.CylinderGeometry(100, 100, 200, 720, 1, false)
+    geometryTop.faces.forEach(function(face) {
+      //logFace(geometryTop, face);
+      ['a','b','c'].forEach(function(vertexName) {
+        var vertex = geometryTop.vertices[face[vertexName]]
+        if (vertex.y > 0) {
+          face.vertexColors.push(new THREE.Color(0xffffff));
+        } else {
+          var h = Math.asin(vertex.x / 100) * 180 / Math.PI
+          var s = vertex.z / 100
+          var color = new THREE.Color()
+          color.setHSL(h / 360, s, 0.5)
+          face.vertexColors.push(color);
+        }
+      })
+    })
+    var top = new THREE.Mesh(geometryTop, material);
+    top.translateY(100)
+
+    var cylinder = new THREE.Object3D()
+    cylinder.add(top);
+    cylinder.add(bottom);
     scene.add(cylinder);
 
     // start animation
