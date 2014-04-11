@@ -58,13 +58,16 @@ App.HslCylinderComponent = Ember.Component.extend({
   width: 400,
   xRotation: 0,
   yRotation: 0,
+  h: 0,
+  s: 1,
+  l: 0.5,
 
   repaint: function() {
     var viz = this.getProperties('renderer', 'scene', 'camera', 'cylinder')
     viz.cylinder.rotation.x = this.get('xRotation') * Math.PI / 180
     viz.cylinder.rotation.y = this.get('yRotation') * Math.PI / 180
     viz.renderer.render(viz.scene, viz.camera)
-  }.observes("xRotation", "yRotation", "color").on('didInsertElement'),
+  }.observes("xRotation", "yRotation", "color.hsl").on('didInsertElement'),
 
   setup: function() {
     var renderer = new THREE.WebGLRenderer({
@@ -79,9 +82,25 @@ App.HslCylinderComponent = Ember.Component.extend({
     // scene
     var scene = new THREE.Scene();
 
-    // cylinder
-    // API: THREE.CylinderGeometry(bottomRadius, topRadius, height, segmentsRadius, segmentsHeight)
-    var cylinder = new THREE.Mesh(new THREE.CylinderGeometry(100, 100, 400, 50, 50, false), new THREE.MeshNormalMaterial());
+
+    var material = new THREE.MeshBasicMaterial( { vertexColors: THREE.VertexColors} );
+    var geometry = window.geometry = new THREE.CylinderGeometry(100, 100, 400, 360, 1, false)
+    geometry.faces.forEach(function(face) {
+      //logFace(geometry, face);
+      ['a','b','c'].forEach(function(vertexName) {        
+        var vertex = geometry.vertices[face[vertexName]]
+        if (vertex.y < 0) {
+          face.vertexColors.push(new THREE.Color(0x000000));
+        } else {
+          var h = Math.asin(vertex.x / 100) * 180 / Math.PI
+          var s = vertex.z / 100
+          var color = new THREE.Color()
+          color.setHSL(h / 360, s, 0.5)
+          face.vertexColors.push(color);
+        }
+      })
+    })
+    var cylinder = new THREE.Mesh(geometry, material);
     cylinder.overdraw = true;
     scene.add(cylinder);
 
@@ -94,10 +113,21 @@ App.HslCylinderComponent = Ember.Component.extend({
       camera: camera,
       cylinder: cylinder
     })
+    
   }.on('didInsertElement'),
 
 })
 
+
+function logFace(geometry, face) {
+  var a = geometry.vertices[face.a]
+  var b = geometry.vertices[face.b]
+  var c = geometry.vertices[face.c]
+  function coords(vertex) {
+    return {x: vertex.x, y: vertex.y, z: vertex.z}
+  }
+  console.log('a', coords(a), 'b', coords(b), 'c', coords(c))
+}
 
 App.RgbVisualizationComponent = Ember.Component.extend({
   color: Color.create(),
