@@ -6,16 +6,6 @@ App.ApplicationController = Ember.Controller.extend({
     var rgb = this.get('color.rgb')
     return "background-color: " + "rgb(" + [rgb.r,rgb.g,rgb.b].join(',') + ")"
   }.property('color.rgb'),
-
-  observeColor: function() {
-    //console.log(this._previousColor.get('rgb'), ' -> ', this.get('color.rgb'))
-  }.observes("color"),
-  observeSyntaxOutput: function() {
-    //console.log('syntax.output', this.get('syntax.output.rgb'))
-  }.observes("syntax.output.rgb"),
-  recordColorHistory: function() {
-    this._previousColor = this.get('color')
-  }.observesBefore('color')
 })
 
 App.ColorInputComponent = Ember.Component.extend({
@@ -83,11 +73,14 @@ App.HslCylinderComponent = Ember.Component.extend({
     var scene = new THREE.Scene();
 
 
-    var material = new THREE.MeshBasicMaterial( { vertexColors: THREE.VertexColors} );
-    var geometry = window.geometry = new THREE.CylinderGeometry(100, 100, 400, 360, 1, false)
+    var material = new THREE.MeshBasicMaterial({ 
+      vertexColors: THREE.VertexColors,
+      emissive: new THREE.Color(0xffffff)
+    });
+    var geometry = window.geometry = new THREE.CylinderGeometry(100, 100, 400, 720, 1, false)
     geometry.faces.forEach(function(face) {
       //logFace(geometry, face);
-      ['a','b','c'].forEach(function(vertexName) {        
+      ['a','b','c'].forEach(function(vertexName) {
         var vertex = geometry.vertices[face[vertexName]]
         if (vertex.y < 0) {
           face.vertexColors.push(new THREE.Color(0x000000));
