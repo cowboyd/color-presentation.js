@@ -108,7 +108,7 @@ App.HslCylinderComponent = Ember.Component.extend({
   }.property(),
 
   bottom: function() {
-    var geometryBottom = new THREE.CylinderGeometry(100, 100, 200, 100, 1, false)
+    var geometryBottom = new THREE.CylinderGeometry(100, 0, 200, 100, 1, false)
     geometryBottom.faces.forEach(function(face) {
       //logFace(geometryBottom, face);
       ['a','b','c'].forEach(function(vertexName) {
@@ -116,10 +116,20 @@ App.HslCylinderComponent = Ember.Component.extend({
         if (vertex.y < 0) {
           face.vertexColors.push(new THREE.Color(0x000000));
         } else {
-          var h = Math.asin(vertex.x / 100) * 180 / Math.PI
-          var s = vertex.z / 100
+          var h;
+          if (vertex.x === 0 && vertex.z === 0) {
+            h = 0
+          } else {
+            if (vertex.z === 0) {
+              h = Math.atan(vertex.x) + Math.PI / 2
+            } else if (vertex.z < 0) {
+              h = Math.atan(vertex.x / vertex.z) + 3 * Math.PI / 2
+            } else {
+              h = Math.atan(vertex.x / vertex.z) + Math.PI / 2
+            }
+          }
           var color = new THREE.Color()
-          color.setHSL(h / 360, s, 0.5)
+          color.setHSL(h / (2 * Math.PI), 1, 0.5)
           face.vertexColors.push(color);
         }
       })
