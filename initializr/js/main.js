@@ -11,6 +11,22 @@ App.ApplicationController = Ember.Controller.extend({
   }.property('color.rgb'),
 })
 
+App.GreenOrNotComponent = Ember.Component.extend({
+  classNames: ['green-or-not'],
+  tagName: 'input',
+  type: 'checkbox',
+  attributeBindings: ['type'],
+  setup: function() {
+    this.on('change', function() {
+      if (this.$().is(':checked')) {
+        this.set('color', Color.fromRGB(0,255,0))
+      } else {
+        this.set('color', Color.fromRGB(0,0,0))
+      }
+    })
+  }.on('didInsertElement')
+})
+
 App.ColorSwatchComponent = Ember.Component.extend({
   classNames: ['color-swatch'],
   attributeBindings: ['style'],
