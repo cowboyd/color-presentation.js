@@ -1,3 +1,6 @@
+Ember.Controller.reopen({
+  color: Color.fromRGB()
+})
 App = Ember.Application.create()
 
 App.ApplicationController = Ember.Controller.extend({
@@ -6,6 +9,16 @@ App.ApplicationController = Ember.Controller.extend({
     var rgb = this.get('color.rgb')
     return "background-color: " + "rgb(" + [rgb.r,rgb.g,rgb.b].join(',') + ")"
   }.property('color.rgb'),
+})
+
+App.ColorSwatchComponent = Ember.Component.extend({
+  classNames: ['color-swatch'],
+  attributeBindings: ['style'],
+  color: Color.fromRGB(),
+  style: function() {
+    var rgb = this.get('color.rgb')
+    return "height: 100px; width: 100px;background-color: " + "rgb(" + [rgb.r,rgb.g,rgb.b].join(',') + ")"
+  }.property('color'),
 })
 
 App.ColorInputComponent = Ember.Component.extend({
@@ -205,7 +218,7 @@ function logFace(geometry, face) {
 }
 
 App.RgbVisualizationComponent = Ember.Component.extend({
-  color: Color.create(),
+  color: Color.fromRGB(),
   setupBindings: function() {
     Ember.oneWay(this, 'r', 'color.r')
     Ember.oneWay(this, 'g', 'color.g')
@@ -222,7 +235,6 @@ App.RgbBlendComponent = Ember.Component.extend({
   height: 200,
   width: 200,
   attributeBindings: ['height', 'width'],
-  color: Color.create(),
 
   paint: function() {
     var canvas = this.get('element')
@@ -231,8 +243,8 @@ App.RgbBlendComponent = Ember.Component.extend({
     var width = this.get('width')
     var radius = .2 * height
     var rgb = this.get('color.rgb')
-
     canvas.width = width
+    if (!rgb) { return }
     with (context) {
       restore()
       globalCompositeOperation = "lighter";
