@@ -17,6 +17,8 @@ App.Desaturator = Ember.Mixin.create({
 
 App.TwoSwatchesWithDesaturationController = Ember.Controller.extend(App.Desaturator)
 
+App.TwoSwatchesWithDesaturationAndTextInputController = Ember.Controller.extend(App.Desaturator)
+
 App.ColorSwatchComponent = Ember.Component.extend({
   classNames: ['color-swatch'],
   attributeBindings: ['style'],

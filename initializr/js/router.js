@@ -3,4 +3,5 @@ App.Router.map(function() {
   this.route("double-swatch")
   this.route("two-swatches-with-desaturation")
   this.route("big-mess-of-everything")
+  this.route("two-swatches-with-desaturation-and-text-input")
 })
