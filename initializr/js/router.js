@@ -4,4 +4,5 @@ App.Router.map(function() {
   this.route("two-swatches-with-desaturation")
   this.route("big-mess-of-everything")
   this.route("two-swatches-with-desaturation-and-text-input")
+  this.route("two-swatches-with-desaturation-and-two-text-inputs")
 })

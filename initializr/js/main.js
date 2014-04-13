@@ -1,5 +1,16 @@
 Ember.Controller.reopen({
-  color: Color.fromRGB(0,255,0)
+  color: Color.fromRGB(0,255,0),
+  rgbFormat: function(color) {
+    var rgb = color.get('rgb')
+    return "rgb(" + [rgb.r,rgb.g,rgb.b].join(',') + ")"
+  },
+  rgbHexFormat: function(color) {
+    var rgb = color.get('rgb')
+    return "#" + ['r', 'g', 'b'].reduce(function(str, axis) {
+      var hex = rgb[axis].toString(16)
+      return str + (hex.length === 1 ? "0" + hex : hex)
+    }, "").toUpperCase()
+  }
 })
 App = Ember.Application.create()
 
@@ -10,7 +21,7 @@ App.Desaturator = Ember.Mixin.create({
     var color = this.get('color')
     var desaturation = this.get('desaturation')
     var saturation = 1 - desaturation;
-    return Color.fromHSL(color.get('h'), saturation, color.get('l'))
+    return Color.fromHSL(color.get('h'), Math.min(saturation, color.get('s')), color.get('l'))
 
   }.property('desaturation', 'color')
 })
@@ -18,6 +29,8 @@ App.Desaturator = Ember.Mixin.create({
 App.TwoSwatchesWithDesaturationController = Ember.Controller.extend(App.Desaturator)
 
 App.TwoSwatchesWithDesaturationAndTextInputController = Ember.Controller.extend(App.Desaturator)
+
+App.TwoSwatchesWithDesaturationAndTwoTextInputsController = Ember.Controller.extend(App.Desaturator)
 
 App.ColorSwatchComponent = Ember.Component.extend({
   classNames: ['color-swatch'],
@@ -33,6 +46,7 @@ App.ColorInputComponent = Ember.Component.extend({
   tagName: 'span',
   layout: Ember.Handlebars.compile("{{input value=syntax.input}}"),
   value: Ember.computed.alias('syntax.output'),
+  format: Ember.computed.alias('syntax.formatter.format'),
   syntax: function() {
     return ColorSyntax.create()
   }.property()

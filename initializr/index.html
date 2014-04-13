@@ -44,8 +44,15 @@
   <script type="text/x-handlebars" data-template-name="two-swatches-with-desaturation-and-text-input">
     {{color-swatch color=color}} {{x-slider min=0 max=1 step="0.01" value=desaturation}} {{color-swatch color=desaturated}}
     <br/>
-    {{color-input value=color}}
+    {{color-input value=color format=rgbFormat}}
   </script>
+  <script type="text/x-handlebars" data-template-name="two-swatches-with-desaturation-and-two-text-inputs">
+    {{color-swatch color=color}} {{x-slider min=0 max=1 step="0.01" value=desaturation}} {{color-swatch color=desaturated}}
+    <br/>
+    {{color-input value=color format=rgbFormat}}<br/><br/>
+    {{color-input value=color format=rgbHexFormat}}
+  </script>
+
   <script type="text/x-handlebars" data-template-name="big-mess-of-everything">
     {{color-swatch color=color}}
     {{color-input value=color}}
