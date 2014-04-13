@@ -3,7 +3,8 @@ Ember.Controller.reopen({
 })
 App = Ember.Application.create()
 
-App.TwoSwatchesWithDesaturationController = Ember.Controller.extend({
+App.Desaturator = Ember.Mixin.create({
+  color: Ember.required(),
   desaturation: 0,
   desaturated: function() {
     var color = this.get('color')
@@ -13,6 +14,8 @@ App.TwoSwatchesWithDesaturationController = Ember.Controller.extend({
 
   }.property('desaturation', 'color')
 })
+
+App.TwoSwatchesWithDesaturationController = Ember.Controller.extend(App.Desaturator)
 
 App.ColorSwatchComponent = Ember.Component.extend({
   classNames: ['color-swatch'],
