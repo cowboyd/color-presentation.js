@@ -1,5 +1,5 @@
-.swatch {
+.color-swatch {
+  display: inline-block;
   height: 100px;
   width: 100px;
-  background-color: black;
 }

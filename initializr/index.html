@@ -32,12 +32,14 @@
     <script src="js/main.js"></script>
     <script src="js/router.js"></script>
   </body>
-  <script type="text/x-handlebars" data-template-name="direct-swatch">
-    {{green-or-not color=color}}
+  <script type="text/x-handlebars" data-template-name="single-swatch">
     {{color-swatch color=color}}
   </script>
+  <script type="text/x-handlebars" data-template-name="double-swatch">
+    {{color-swatch color=color}} {{color-swatch color=color}}
+  </script>
   <script type="text/x-handlebars" data-template-name="two-swatches-with-desaturation">
-    {{color-swatch color=color}}
+    {{color-swatch color=color}} {{x-slider min=0 max=1 step="0.01" value=desaturation}} {{color-swatch color=desaturated}}
   </script>
   <script type="text/x-handlebars" data-template-name="big-mess-of-everything">
     {{color-swatch color=color}}

@@ -1,5 +1,6 @@
 App.Router.map(function() {
-  this.route("direct-swatch")
+  this.route("single-swatch")
+  this.route("double-swatch")
   this.route("two-swatches-with-desaturation")
   this.route("big-mess-of-everything")
 })

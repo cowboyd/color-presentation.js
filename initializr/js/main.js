@@ -1,30 +1,17 @@
 Ember.Controller.reopen({
-  color: Color.fromRGB()
+  color: Color.fromRGB(0,255,0)
 })
 App = Ember.Application.create()
 
-App.ApplicationController = Ember.Controller.extend({
-  color: Color.fromRGB(255,0,0),
-  swatchStyle: function() {
-    var rgb = this.get('color.rgb')
-    return "background-color: " + "rgb(" + [rgb.r,rgb.g,rgb.b].join(',') + ")"
-  }.property('color.rgb'),
-})
+App.TwoSwatchesWithDesaturationController = Ember.Controller.extend({
+  desaturation: 0,
+  desaturated: function() {
+    var color = this.get('color')
+    var desaturation = this.get('desaturation')
+    var saturation = 1 - desaturation;
+    return Color.fromHSL(color.get('h'), saturation, color.get('l'))
 
-App.GreenOrNotComponent = Ember.Component.extend({
-  classNames: ['green-or-not'],
-  tagName: 'input',
-  type: 'checkbox',
-  attributeBindings: ['type'],
-  setup: function() {
-    this.on('change', function() {
-      if (this.$().is(':checked')) {
-        this.set('color', Color.fromRGB(0,255,0))
-      } else {
-        this.set('color', Color.fromRGB(0,0,0))
-      }
-    })
-  }.on('didInsertElement')
+  }.property('desaturation', 'color')
 })
 
 App.ColorSwatchComponent = Ember.Component.extend({
@@ -33,7 +20,7 @@ App.ColorSwatchComponent = Ember.Component.extend({
   color: Color.fromRGB(),
   style: function() {
     var rgb = this.get('color.rgb')
-    return "height: 100px; width: 100px;background-color: " + "rgb(" + [rgb.r,rgb.g,rgb.b].join(',') + ")"
+    return "background-color: " + "rgb(" + [rgb.r,rgb.g,rgb.b].join(',') + ")"
   }.property('color'),
 })
 
