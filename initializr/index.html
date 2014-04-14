@@ -34,6 +34,9 @@
   </body>
   <script type="text/x-handlebars" data-template-name="single-swatch">
     {{color-swatch color=color}}
+    <div style="text-align: center;">
+      {{input type="checkbox" checked=active}}
+    </div>
   </script>
   <script type="text/x-handlebars" data-template-name="double-swatch">
     {{color-swatch color=color}} {{color-swatch color=color}}

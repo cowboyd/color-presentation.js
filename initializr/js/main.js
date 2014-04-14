@@ -26,6 +26,17 @@ App.Desaturator = Ember.Mixin.create({
   }.property('desaturation', 'color')
 })
 
+App.SingleSwatchController = Ember.Controller.extend({
+  active: false,
+  onoff: function() {
+    if (this.get('active')) {
+      this.set('color', Color.fromRGB(0,255,0))
+    } else {
+      this.set('color', Color.fromRGB(0,0,0))
+    }
+  }.observes('active').on('init')
+})
+
 App.TwoSwatchesWithDesaturationController = Ember.Controller.extend(App.Desaturator)
 
 App.TwoSwatchesWithDesaturationAndTextInputController = Ember.Controller.extend(App.Desaturator)
