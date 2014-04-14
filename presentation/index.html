@@ -4,10 +4,10 @@
   <head>
     <meta charset="utf-8">
 
-    <title>reveal.js - The HTML Presentation Framework</title>
+    <title>The Power of M</title>
 
-    <meta name="description" content="A framework for easily creating beautiful presentations using HTML">
-    <meta name="author" content="Hakim El Hattab">
+    <meta name="description" content="An exploration of values in the world of MVC">
+    <meta name="author" content="Charles Lowell">
 
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -16,6 +16,7 @@
 
     <link rel="stylesheet" href="css/reveal.min.css">
     <link rel="stylesheet" href="css/theme/default.css" id="theme">
+    <link rel="stylesheet" href="css/app.css">
 
     <!-- For syntax highlighting -->
     <link rel="stylesheet" href="lib/css/zenburn.css">
@@ -42,51 +43,104 @@
       <div class="slides">
         <section data-id="845f5df9a90794cfe05df0f66b5ad163">
           <h1>The Power Of M</h1>
-          <div>
-            <br>
-          </div>
+        </section>
+        <section>
+          <h1>About Me</h1>
           <div>Charles Lowell</div>
           <div>@cowboyd</div>
-          <div>The Frontside</div>
+          <div><a href="mailto:cowboyd@frontside.io">cowboyd@frontside.io</a></div>
+        </section>
+        <section>
+          <h1><strong>M</strong> is for MVC</h1>
+          <p>The foundational software pattern on which UIs are built</p>
+        </section>
+        <section>
+          <h2>Yeah, but what is it really?</h2>
+        </section>
+        <section>
+          <h2>Will the <em>real</em> MVC please stand up.</h2>
+          <img src="real-mvc.png"/>
+        </section>
+        <section>
+          <h2>MVC is like testing</h2>
+          <p><em>Many</em> different schools</p>
+          <p class="fragment">Is there a thread that binds them?</p>
+        </section>
+        <section>
+          <p>Am I doing it right?</p>
+        </section>
+        <section>
+          <h2>Testing</h2>
+          <p>Focus on automated verification</p>
+        </section>
+        <section style="font-size: 400%">
+          <div class="fragment grow highlight-blue" style="display: inline-block;" data-fragment-index=1>M</div>
+          <div class="fragment shrink" style="display: inline-block;" data-fragment-index=1>VC</div>
+          <p class="fragment" style="font-size: 25%" data-fragment-index=1>Focus on the model.</p>
+        </section>
+        <section>
+          <h2>
+            Helpful Allegory
+          </h2>
+          <p>Plato's Cave</p>
+          <img src="plato.jpeg" height=400/>
+        </section>
+        <section>
+          <img src="plato-cave.jpg" style="height: 50%"/>
+        </section>
+        <section>
+          <h1>V = F(M)</h1>
+        </section>
+        <section>
+          <h2>What we've learned so far:</h2>
+          <ul>
+            <li class="fragment">Twitter handle: @cowboyd</li>
+            <li class="fragment">I read about Plato on Wikipedia</li>
+          </ul>
+        </section>
+        <section>
+          <h2>Principle in action</h2>
+          <p>What is a color?</p>
+        </section>
+        <section>
+          <img src="diagrams/color.svg"/>
         </section>
         <section data-id="5c13d9bbb87a0d4dd520ed2a60bedb0e">
-          <iframe src="../initializr/index.html" height="400" width="400"></iframe>
+          <iframe src="../initializr/index.html#single-swatch" height="400" width="400"></iframe>
         </section>
       </div>
-    </div>
 
-    <script src="lib/js/head.min.js"></script>
-    <script src="js/reveal.min.js"></script>
+      <script src="lib/js/head.min.js"></script>
+      <script src="js/reveal.min.js"></script>
 
-    <script>
+      <script>
 
-     // Full list of configuration options available here:
-     // https://github.com/hakimel/reveal.js#configuration
-     Reveal.initialize({
-       controls: true,
-       progress: true,
-       history: true,
-       center: true,
+       // Full list of configuration options available here:
+       // https://github.com/hakimel/reveal.js#configuration
+       Reveal.initialize({
+         controls: true,
+         progress: true,
+         history: true,
+         center: true,
 
-       theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
-       transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+         theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+         transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+         // Parallax scrolling
+         // parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+         // parallaxBackgroundSize: '2100px 900px',
 
-       // Parallax scrolling
-       // parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
-       // parallaxBackgroundSize: '2100px 900px',
+         // Optional libraries used to extend on reveal.js
+         dependencies: [
+           { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+           { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+           { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+           { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+           { src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+           { src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+         ]
+       });
 
-       // Optional libraries used to extend on reveal.js
-       dependencies: [
-         { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
-         { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-         { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-         { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
-         { src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
-         { src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
-       ]
-     });
-
-    </script>
+      </script>
 
   </body>
 </html>
