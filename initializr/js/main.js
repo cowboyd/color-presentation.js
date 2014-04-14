@@ -26,7 +26,7 @@ App.Desaturator = Ember.Mixin.create({
   }.property('desaturation', 'color')
 })
 
-App.SingleSwatchController = Ember.Controller.extend({
+App.SwatchLight = Ember.Mixin.create({
   active: false,
   onoff: function() {
     if (this.get('active')) {
@@ -36,6 +36,8 @@ App.SingleSwatchController = Ember.Controller.extend({
     }
   }.observes('active').on('init')
 })
+
+App.SingleSwatchController = Ember.Controller.extend(App.SwatchLight)
 
 App.TwoSwatchesWithDesaturationController = Ember.Controller.extend(App.Desaturator)
 
