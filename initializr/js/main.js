@@ -194,7 +194,7 @@ App.HslCylinderComponent = Ember.Component.extend({
       color: new THREE.Color(0x000000)
     })
     var sphere = new THREE.Mesh(geometry, material);
-    sphere.position.y = 205
+    sphere.position.y = 200
     sphere.position.z = 100
     return sphere
   }.property(),
@@ -284,7 +284,7 @@ App.HslCylinderComponent = Ember.Component.extend({
     this.set('cylinder.scale.x', this.get('color.s'))
     this.set('cylinder.scale.z', this.get('color.s'))
     this.set('cylinder.rotation.y', -1 * this.get('color.h') * Math.PI / 180 + Math.PI / 2)
-    this.set('dot.position.z', this.get('color.s') * 100)
+    this.set('dot.position.y', this.get('color.l') * 400 - 200)
     this.set('apparatus.rotation.x', this.get('xRotation') * Math.PI / 180)
     this.get('renderer').render(this.get('scene'), this.get('camera'))
 
