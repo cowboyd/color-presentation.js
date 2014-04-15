@@ -58,7 +58,7 @@
   <script type="text/x-handlebars" data-template-name="two-swatches-with-desaturation-and-two-text-inputs">
     {{color-swatch color=color}} {{x-slider min=0 max=1 step="0.01" value=desaturation}} {{color-swatch color=desaturated}}
     <br/>
-    {{color-input value=color format=rgbFormat}}<br/><br/>
+    {{color-input value=color format=rgbFormat}}<p>
     {{color-input value=color format=rgbHexFormat}}
   </script>
 
@@ -69,6 +69,7 @@
     {{rgb-visualization color=color}}
     {{hsl-visualization color=color}}
   </script>
+
   <script type="text/x-handlebars" data-template-name="components/rgb-visualization">
     {{rgb-blend color=color}}
     {{x-slider min=0 max=255 value=r}}
