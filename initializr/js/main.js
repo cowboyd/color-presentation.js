@@ -39,14 +39,31 @@ App.SwatchLight = Ember.Mixin.create({
 
 App.RGBSelector = Ember.Mixin.create({
   r: 255, g: 0, b: 0,
-  composedColor: function() {
+  composedRgbColor: function() {
     return Color.fromRGB(this.getProperties('r','g','b'))
   }.property("r", 'g', 'b'),
-  setupBindings: function() {
+  setupRgbBindings: function() {
     Ember.oneWay(this, 'r', 'color.r')
     Ember.oneWay(this, 'g', 'color.g')
     Ember.oneWay(this, 'b', 'color.b')
-    Ember.oneWay(this, 'color', 'composedColor')
+    Ember.oneWay(this, 'color', 'composedRgbColor')
+  }.on("init")
+})
+
+App.HSLSelector = Ember.Mixin.create({
+  h: 0, s: 1, l: .5,
+  dampener: function() {
+    return ColorDampener.create()
+  }.property(),
+  composedHslColor: function() {
+    return Color.fromHSL(this.getProperties('h','s','l'))
+  }.property('h', 's', 'l'),
+  setupHslBindings: function() {
+    Ember.oneWay(this, 'h', 'color.h')
+    Ember.oneWay(this, 's', 'color.s')
+    Ember.oneWay(this, 'l', 'color.l')
+    Ember.oneWay(this, 'color', 'composedHslColor')
+    Ember.oneWay(this, 'dampener.left', 'color')
   }.on("init")
 })
 
@@ -59,11 +76,13 @@ App.TwoSwatchesWithDesaturationController = Ember.Controller.extend(App.Desatura
 })
 
 App.TwoSwatchesWithDesaturationAndTextInputController = Ember.Controller.extend(App.Desaturator)
-
 App.TwoSwatchesWithDesaturationAndTwoTextInputsController = Ember.Controller.extend(App.Desaturator)
-
 App.IntegratedRgbSelectorController = Ember.Controller.extend(App.RGBSelector)
 App.IntegratedRgbVisualizationController = Ember.Controller.extend(App.RGBSelector)
+App.IntegratedHslSelectorController = Ember.Controller.extend(App.RGBSelector, App.HSLSelector)
+App.IntegratedHslVisualizationController = Ember.Controller.extend(App.RGBSelector, App.HSLSelector, {
+  xRotation: 0
+})
 
 App.ColorSwatchComponent = Ember.Component.extend({
   classNames: ['color-swatch'],
@@ -88,7 +107,7 @@ App.ColorInputComponent = Ember.Component.extend({
 App.XSliderComponent = Ember.Component.extend({
   classNames: ['x-slider'],
   tagName: ['input'],
-  attributeBindings: ['min', 'max', 'step', 'type'],
+  attributeBindings: ['min', 'max', 'step', 'type', 'name'],
   type: "range",
   setup: function() {
     var component = this
@@ -123,7 +142,8 @@ App.HslVisualizationComponent = Ember.Component.extend({
 App.HslCylinderComponent = Ember.Component.extend({
   classNames: ['hsl-cylinder'],
   tagName: "canvas",
-  attributeBindings: ['height', 'width'],
+  attributeBindings: ['height', 'width', 'style'],
+  style: "border-radius: 10px",
   height: 400,
   width: 400,
   xRotation: 45,
@@ -275,8 +295,8 @@ function logFace(geometry, face) {
 App.RgbVisualizationComponent = Ember.Component.extend({
   color: Color.fromRGB(),
   setupBindings: function() {
-    Ember.oneWay(this, 'r', 'color.r')
-    Ember.oneWay(this, 'g', 'color.g')
+    Ember.oneWay(this, 'h', 'color.r')
+    Ember.oneWay(this, 's', 'color.g')
     Ember.oneWay(this, 'b', 'color.b')
   }.on('init'),
 

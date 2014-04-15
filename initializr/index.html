@@ -88,6 +88,51 @@
     <p>{{color-input value=color format=rgbHexFormat}}</p>
   </script>
 
+  <script type="text/x-handlebars" data-template-name="integrated-hsl-selector">
+    <div style="display: inline-block; font-family: monospace; color: white; font-size: 200%; margin 0 10px;">
+      {{x-slider min=0 max=360 value=h}} h<br/>
+      {{x-slider min=0 max=1 step=".001" value=s}} s<br/>
+      {{x-slider min=0 max=1 step=".001" value=l}} l<br/>
+    </div>
+    {{color-swatch color=color}}
+    <div style="display: inline-block; font-family: monospace; color: white; font-size: 200%; margin: 0 10px;">
+      r {{x-slider min=0 max=255 value=r}}<br/>
+      g {{x-slider min=0 max=255 value=g}}<br/>
+      b {{x-slider min=0 max=255 value=b}}
+    </div>
+    <div style="display: inline-block;">
+      {{rgb-blend color=color}}
+    </div>
+    <p>{{color-input value=color format=rgbFormat}}</p>
+    <p>{{color-input value=color format=rgbHexFormat}}</p>
+  </script>
+
+  <script type="text/x-handlebars" data-template-name="integrated-hsl-visualization">
+    <div style="display: inline-block;">
+      {{hsl-cylinder color=dampener.right height=300 width=300 xRotation=xRotation}}
+      <div style="display: inline-block; font-family: monospace; color: white; font-size: 200%; margin 0 10px;">
+        {{x-slider min=0 max=90 name="x-rotation" value=xRotation}}<br/>
+        {{x-slider min=0 max=360 value=h}} h<br/>
+        {{x-slider min=0 max=1 step=".001" value=s}} s<br/>
+        {{x-slider min=0 max=1 step=".001" value=l}} l<br/>
+      </div>
+      {{color-swatch color=color}}
+      <div style="display: inline-block; font-family: monospace; color: white; font-size: 200%; margin: 0 10px;">
+        r {{x-slider min=0 max=255 value=r}}<br/>
+        g {{x-slider min=0 max=255 value=g}}<br/>
+        b {{x-slider min=0 max=255 value=b}}
+      </div>
+      <div style="display: inline-block;">
+        {{rgb-blend color=color height=300 width=300}}
+      </div>
+      <div style="text-align: center;">
+        <p>{{color-input value=color format=rgbFormat}}</p>
+        <p>{{color-input value=color format=rgbHexFormat}}</p>
+      </div>
+    </div>
+  </script>
+
+
   <script type="text/x-handlebars" data-template-name="big-mess-of-everything">
     {{color-swatch color=color}}
     {{color-input value=color}}
