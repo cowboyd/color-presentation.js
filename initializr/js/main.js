@@ -41,7 +41,9 @@ App.SingleSwatchController = Ember.Controller.extend(App.SwatchLight)
 
 App.DoubleSwatchController = Ember.Controller.extend(App.SwatchLight)
 
-App.TwoSwatchesWithDesaturationController = Ember.Controller.extend(App.Desaturator, App.SwatchLight)
+App.TwoSwatchesWithDesaturationController = Ember.Controller.extend(App.Desaturator, App.SwatchLight, {
+  active: true
+})
 
 App.TwoSwatchesWithDesaturationAndTextInputController = Ember.Controller.extend(App.Desaturator)
 
