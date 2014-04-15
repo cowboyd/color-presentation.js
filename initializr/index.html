@@ -61,6 +61,16 @@
     {{color-input value=color format=rgbFormat}}<p>
     {{color-input value=color format=rgbHexFormat}}
   </script>
+  <script type="text/x-handlebars" data-template-name="integrated-rgb-selector">
+    {{color-swatch color=color}} 
+    <div style="display: inline-block; font-family: monospace;">
+      r {{x-slider min=0 max=255 value=r}}<br/>
+      g {{x-slider min=0 max=255 value=g}}<br/>
+      b {{x-slider min=0 max=255 value=b}}
+    </div>
+    <p>{{color-input value=color format=rgbFormat}}</p>
+    <p>{{color-input value=color format=rgbHexFormat}}</p>
+    </script>
 
   <script type="text/x-handlebars" data-template-name="big-mess-of-everything">
     {{color-swatch color=color}}

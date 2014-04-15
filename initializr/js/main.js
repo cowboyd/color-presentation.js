@@ -49,6 +49,19 @@ App.TwoSwatchesWithDesaturationAndTextInputController = Ember.Controller.extend(
 
 App.TwoSwatchesWithDesaturationAndTwoTextInputsController = Ember.Controller.extend(App.Desaturator)
 
+App.IntegratedRgbSelectorController = Ember.Controller.extend({
+  r: 255, g: 0, b: 0,
+  composedColor: function() {
+    return Color.fromRGB(this.getProperties('r','g','b'))
+  }.property("r", 'g', 'b'),
+  setupBindings: function() {
+    Ember.oneWay(this, 'r', 'color.r')
+    Ember.oneWay(this, 'g', 'color.g')
+    Ember.oneWay(this, 'b', 'color.b')
+    Ember.oneWay(this, 'color', 'composedColor')
+  }.on("init")
+})
+
 App.ColorSwatchComponent = Ember.Component.extend({
   classNames: ['color-swatch'],
   attributeBindings: ['style'],
