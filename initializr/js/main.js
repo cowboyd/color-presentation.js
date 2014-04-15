@@ -63,6 +63,7 @@ App.TwoSwatchesWithDesaturationAndTextInputController = Ember.Controller.extend(
 App.TwoSwatchesWithDesaturationAndTwoTextInputsController = Ember.Controller.extend(App.Desaturator)
 
 App.IntegratedRgbSelectorController = Ember.Controller.extend(App.RGBSelector)
+App.IntegratedRgbVisualizationController = Ember.Controller.extend(App.RGBSelector)
 
 App.ColorSwatchComponent = Ember.Component.extend({
   classNames: ['color-swatch'],
@@ -288,7 +289,8 @@ App.RgbBlendComponent = Ember.Component.extend({
   tagName: "canvas",
   height: 200,
   width: 200,
-  attributeBindings: ['height', 'width'],
+  attributeBindings: ['height', 'width', 'style'],
+  style: "border-radius: 10px;",
 
   paint: function() {
     var canvas = this.get('element')

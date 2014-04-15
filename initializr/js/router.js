@@ -6,4 +6,5 @@ App.Router.map(function() {
   this.route("two-swatches-with-desaturation-and-text-input")
   this.route("two-swatches-with-desaturation-and-two-text-inputs")
   this.route("integrated-rgb-selector")
+  this.route("integrated-rgb-visualization")
 })
