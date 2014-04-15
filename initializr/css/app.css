@@ -14,6 +14,7 @@ input[type=text] {
 }
 
 input[name=x-rotation] {
+  width: 75px;
   -webkit-transform: rotate(90deg) translateY(-9px) translateX(-100%);
   -webkit-transform-origin: 0;
 }
