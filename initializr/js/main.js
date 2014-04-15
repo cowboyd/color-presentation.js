@@ -4,6 +4,10 @@ Ember.Controller.reopen({
     var rgb = color.get('rgb')
     return "rgb(" + [rgb.r,rgb.g,rgb.b].join(',') + ")"
   },
+  hslFormat: function(color) {
+    var hsl = color.get('hsl')
+    return "hsl(" + [hsl.h,hsl.s,hsl.l].join(',') + ")"
+  },
   rgbHexFormat: function(color) {
     var rgb = color.get('rgb')
     return "#" + ['r', 'g', 'b'].reduce(function(str, axis) {
@@ -81,7 +85,7 @@ App.IntegratedRgbSelectorController = Ember.Controller.extend(App.RGBSelector)
 App.IntegratedRgbVisualizationController = Ember.Controller.extend(App.RGBSelector)
 App.IntegratedHslSelectorController = Ember.Controller.extend(App.RGBSelector, App.HSLSelector)
 App.IntegratedHslVisualizationController = Ember.Controller.extend(App.RGBSelector, App.HSLSelector, {
-  xRotation: 5
+  xRotation: 90
 })
 
 App.ColorSwatchComponent = Ember.Component.extend({
@@ -272,7 +276,7 @@ App.HslCylinderComponent = Ember.Component.extend({
 
 
   draw: function() {
-    this.set('cylinder.rotation.y', -1 * this.get('color.h') * Math.PI / 180)
+    this.set('cylinder.rotation.y', -1 * this.get('color.h') * Math.PI / 180 + Math.PI / 2)
     this.set('dot.position.z', this.get('color.s') * 100)
     this.set('apparatus.rotation.x', this.get('xRotation') * Math.PI / 180)
     this.get('renderer').render(this.get('scene'), this.get('camera'))
