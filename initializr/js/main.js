@@ -63,11 +63,11 @@ App.HSLSelector = Ember.Mixin.create({
     return Color.fromHSL(this.getProperties('h','s','l'))
   }.property('h', 's', 'l'),
   setupHslBindings: function() {
-    Ember.oneWay(this, 'h', 'color.h')
-    Ember.oneWay(this, 's', 'color.s')
-    Ember.oneWay(this, 'l', 'color.l')
-    Ember.oneWay(this, 'color', 'composedHslColor')
-    Ember.oneWay(this, 'dampener.left', 'color')
+    Ember.bind(this, 'dampener.right', 'color')
+    Ember.oneWay(this, 'h', 'dampener.left.h')
+    Ember.oneWay(this, 's', 'dampener.left.s')
+    Ember.oneWay(this, 'l', 'dampener.left.l')
+    Ember.oneWay(this, 'dampener.left', 'composedHslColor')
   }.on("init")
 })
 
