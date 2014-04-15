@@ -39,7 +39,9 @@ App.SwatchLight = Ember.Mixin.create({
 
 App.SingleSwatchController = Ember.Controller.extend(App.SwatchLight)
 
-App.TwoSwatchesWithDesaturationController = Ember.Controller.extend(App.Desaturator)
+App.DoubleSwatchController = Ember.Controller.extend(App.SwatchLight)
+
+App.TwoSwatchesWithDesaturationController = Ember.Controller.extend(App.Desaturator, App.SwatchLight)
 
 App.TwoSwatchesWithDesaturationAndTextInputController = Ember.Controller.extend(App.Desaturator)
 
