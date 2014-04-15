@@ -81,7 +81,7 @@ App.IntegratedRgbSelectorController = Ember.Controller.extend(App.RGBSelector)
 App.IntegratedRgbVisualizationController = Ember.Controller.extend(App.RGBSelector)
 App.IntegratedHslSelectorController = Ember.Controller.extend(App.RGBSelector, App.HSLSelector)
 App.IntegratedHslVisualizationController = Ember.Controller.extend(App.RGBSelector, App.HSLSelector, {
-  xRotation: 0
+  xRotation: 5
 })
 
 App.ColorSwatchComponent = Ember.Component.extend({
@@ -164,7 +164,7 @@ App.HslCylinderComponent = Ember.Component.extend({
 
   camera: function() {
     var camera = new THREE.PerspectiveCamera(45, 1, 1, 1000);
-    camera.position.z = 700;
+    camera.position.z = 600;
     return camera
   }.property(),
 
