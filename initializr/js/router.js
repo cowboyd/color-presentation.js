@@ -9,4 +9,6 @@ App.Router.map(function() {
   this.route("integrated-rgb-visualization")
   this.route("integrated-hsl-selector")
   this.route("integrated-hsl-visualization")
+  this.route("integrated-server")
 })
+

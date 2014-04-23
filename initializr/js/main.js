@@ -87,6 +87,16 @@ App.IntegratedHslSelectorController = Ember.Controller.extend(App.RGBSelector, A
 App.IntegratedHslVisualizationController = Ember.Controller.extend(App.RGBSelector, App.HSLSelector, {
   xRotation: 90
 })
+App.IntegratedServerController = Ember.Controller.extend(App.RGBSelector, App.HSLSelector, {
+  xRotation: 30,
+  color: Color.fromRGB(255,255,255),
+  server: function() {
+    return App.Server.create()
+  }.property(),
+  setupServerBindings: function() {
+    Ember.bind(this, 'server.color', 'color')
+  }.on("init")
+})
 
 App.ColorSwatchComponent = Ember.Component.extend({
   classNames: ['color-swatch'],
@@ -372,4 +382,30 @@ App.RgbBlendComponent = Ember.Component.extend({
       values[axis] = rgb[axis] / 255
     }, {})
   }.property('color.rgb')
+})
+
+
+App.Server = Ember.Object.extend({
+  url: 'galadriel.local:3000/websocket',
+  version: 0,
+  dispatcher: function() {
+    return new WebSocketRails(this.get('url'))
+  }.property('url'),
+  subscribeToColorsFromServer: function() {
+    var self = this
+    var dispatcher = this.get('dispatcher')
+    dispatcher.bind("color", function(color) {
+      var version = color.version || 0
+      if (version > self.get('version')) {
+        self.set('version', version)
+        self.set('color', Color.fromRGB(color))
+      }
+    })
+  }.observes("dispatcher").on("init"),
+  broadcastColorToServer: function() {
+    var nextVersion = this.get('version') + 1
+    var message = Ember.merge({version: nextVersion}, this.get('color.rgb'))
+    this.set('version', nextVersion)
+    this.get('dispatcher').trigger('color', message)
+  }.observes('color')
 })
